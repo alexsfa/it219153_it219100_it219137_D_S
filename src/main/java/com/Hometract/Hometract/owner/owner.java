@@ -2,14 +2,22 @@ package com.Hometract.Hometract.owner;
 
 import com.Hometract.Hometract.contract.contract;
 import com.Hometract.Hometract.property.property;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+
+@Entity
 public class owner {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
+  /*  private String name;
     private LocalDate date_of_id_issue;
     private String Service_of_id_issue;
     private int VAT;
@@ -19,10 +27,11 @@ public class owner {
     private String password;
     private List<contract> contracts;
 
-    private List<property> properties;
+    private List<property> properties;*/
 
-    public owner(long id,
-                 String name,
+    public owner() {}
+    public owner(long id)
+                 /*String name,
                  LocalDate date_of_id_issue,
                  String service_of_id_issue,
                  int VAT,
@@ -31,22 +40,22 @@ public class owner {
                  String email,
                  String password,
                  List<contract> contracts,
-                 List<property> properties)
+                 List<property> properties)*/
     {
         this.id = id;
-        this.name = name;
-        this.date_of_id_issue = date_of_id_issue;
-        Service_of_id_issue = service_of_id_issue;
-        this.VAT = VAT;
-        this.telephone_number = telephone_number;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-        this.contracts = contracts;
-        this.properties = properties;
+//        this.name = name;
+//        this.date_of_id_issue = date_of_id_issue;
+//        Service_of_id_issue = service_of_id_issue;
+//        this.VAT = VAT;
+//        this.telephone_number = telephone_number;
+//        this.address = address;
+//        this.email = email;
+//        this.password = password;
+//        this.contracts = contracts;
+//        this.properties = properties;
     }
 
-    @Override
+/*    @Override
     public String toString() {
         return "owner{" +
                 "id=" + id +
@@ -61,13 +70,13 @@ public class owner {
                 ", contracts=" + contracts +
                 ", properties=" + properties +
                 '}';
-    }
+    }*/
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+  /*  public void setId(long id) {
         this.id = id;
     }
 
@@ -149,5 +158,5 @@ public class owner {
 
     public void setProperties(List<property> properties) {
         this.properties = properties;
-    }
+    }*/
 }
