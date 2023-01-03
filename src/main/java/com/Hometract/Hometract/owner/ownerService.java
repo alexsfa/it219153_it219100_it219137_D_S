@@ -9,6 +9,6 @@ import java.util.List;
 public class ownerService {
     private List<owner> owners;
     public List<owner> getOwners() {
-        return owners;
+        return this.owners;
     }
 }
