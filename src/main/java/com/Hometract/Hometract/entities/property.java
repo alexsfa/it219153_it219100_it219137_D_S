@@ -1,4 +1,4 @@
-package com.Hometract.Hometract.property;
+package com.Hometract.Hometract.entities;
 
 import java.util.List;
 

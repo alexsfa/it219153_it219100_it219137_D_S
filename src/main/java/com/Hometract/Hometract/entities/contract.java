@@ -1,7 +1,7 @@
-package com.Hometract.Hometract.contract;
+package com.Hometract.Hometract.entities;
 
-import com.Hometract.Hometract.owner.owner;
-import com.Hometract.Hometract.property.property;
+import com.Hometract.Hometract.entities.owner;
+import com.Hometract.Hometract.entities.property;
 
 import java.util.Date;
 

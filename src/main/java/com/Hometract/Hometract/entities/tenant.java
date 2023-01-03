@@ -1,4 +1,4 @@
-package com.Hometract.Hometract.tenant;
+package com.Hometract.Hometract.entities;
 
 import java.time.LocalDate;
 
