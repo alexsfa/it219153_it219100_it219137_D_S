@@ -1,72 +1,107 @@
 package com.Hometract.Hometract.entities;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tenants")
 public class tenant {
-    private String name;
-    private int ID_Number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tenant_id",nullable = false)
+    private long id;
+    @Column(name = "first_name")
+    private String first_name;
+    @Column(name = "date_of_ID")
     private LocalDate date_of_ID_issue;
+    @Column(name = "service_of_id")
     private String service_of_ID_issue;
+    @Column(name = "VAT")
+    @Length(min=10, max=10, message = "VAT Number must be 10 digits")
     private int VAT;
+
+    @Column(name = "Telephone number")
+    @Length(min=10, max=10, message = "Telephone Number must be 10 digits")
     private int telephone_number;
+    @Column(name = "Address")
     private String address;
+
+    @Column(name = "Email")
+    @Email(message = "Please enter a valid email")
+    @Size(max = 50)
     private String email;
-    private long userID;
+    @Column(name = "password")
     private String password;
 
-    public tenant(String name,
-                  int ID_Number,
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="contract")
+    private contract contract;
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="property")
+    private property property;
+
+    public tenant () {}
+
+    public tenant(long id,
+                  String first_name,
                   LocalDate date_of_ID_issue,
                   String service_of_ID_issue,
                   int VAT,
                   int telephone_number,
                   String address,
                   String email,
-                  long userID,
-                  String password)
-    {
-        this.name = name;
-        this.ID_Number = ID_Number;
+                  String password,
+                  contract contract,
+                  property property) {
+        this.id = id;
+        this.first_name = first_name;
         this.date_of_ID_issue = date_of_ID_issue;
         this.service_of_ID_issue = service_of_ID_issue;
         this.VAT = VAT;
         this.telephone_number = telephone_number;
         this.address = address;
         this.email = email;
-        this.userID = userID;
         this.password = password;
+        this.contract = contract;
+        this.property = property;
     }
 
     @Override
     public String toString() {
         return "tenant{" +
-                "name='" + name + '\'' +
-                ", ID_Number=" + ID_Number +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
                 ", date_of_ID_issue=" + date_of_ID_issue +
                 ", service_of_ID_issue='" + service_of_ID_issue + '\'' +
                 ", VAT=" + VAT +
                 ", telephone_number=" + telephone_number +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
-                ", userID=" + userID +
                 ", password='" + password + '\'' +
+                ", contract=" + contract +
+                ", property=" + property +
                 '}';
     }
 
-    public String getName() {
-        return name;
+    public long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public int getID_Number() {
-        return ID_Number;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setID_Number(int ID_Number) {
-        this.ID_Number = ID_Number;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
     public LocalDate getDate_of_ID_issue() {
@@ -117,19 +152,27 @@ public class tenant {
         this.email = email;
     }
 
-    public long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public com.Hometract.Hometract.entities.contract getContract() {
+        return contract;
+    }
+
+    public void setContract(com.Hometract.Hometract.entities.contract contract) {
+        this.contract = contract;
+    }
+
+    public com.Hometract.Hometract.entities.property getProperty() {
+        return property;
+    }
+
+    public void setProperty(com.Hometract.Hometract.entities.property property) {
+        this.property = property;
     }
 }

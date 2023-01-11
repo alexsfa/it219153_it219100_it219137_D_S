@@ -2,81 +2,105 @@ package com.Hometract.Hometract.entities;
 
 import com.Hometract.Hometract.entities.owner;
 import com.Hometract.Hometract.entities.property;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+@Entity
+@Table(name = "contracts")
 public class contract {
-    private property Property;
-    private Date startDate;
-    private Date endDate;
-    private Date creationDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contract_id",nullable = false)
+    private int contract_id;
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
+
+    @Column(name = "Terms")
     private String specialTerms;
-    private owner contractOwner;
+
+    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="owner_id")
+    @JsonBackReference
+    private owner owner;
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="property_id")
+    private property property;
+
+    @Column(name = "Payment in advance")
     private int payment_in_advance;
+
+    @Column(name = "reason_of_use")
     private String reason_of_use;
 
-    public contract(property property,
-                    Date startDate,
-                    Date endDate,
-                    Date creationDate,
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="id")
+    private tenant tenant;
+
+    public contract() {}
+
+    public contract(int contract_id,
+                    LocalDate startDate,
+                    LocalDate endDate,
+                    LocalDate creationDate,
                     String specialTerms,
-                    owner contractOwner,
+                    com.Hometract.Hometract.entities.owner owner,
+                    com.Hometract.Hometract.entities.property property,
                     int payment_in_advance,
-                    String reason_of_use)
-    {
-        Property = property;
+                    String reason_of_use,
+                    com.Hometract.Hometract.entities.tenant tenant) {
+        this.contract_id = contract_id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.creationDate = creationDate;
         this.specialTerms = specialTerms;
-        this.contractOwner = contractOwner;
+        this.owner = owner;
+        this.property = property;
         this.payment_in_advance = payment_in_advance;
         this.reason_of_use = reason_of_use;
+        this.tenant = tenant;
     }
 
-    @Override
-    public String toString() {
-        return "contract{" +
-                "Property=" + Property +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", creationDate=" + creationDate +
-                ", specialTerms='" + specialTerms + '\'' +
-                ", contractOwner=" + contractOwner +
-                ", payment_in_advance=" + payment_in_advance +
-                ", reason_of_use='" + reason_of_use + '\'' +
-                '}';
+    public int getContract_id() {
+        return contract_id;
     }
 
-    public property getProperty() {
-        return Property;
+    public void setContract_id(int contract_id) {
+        this.contract_id = contract_id;
     }
 
-    public void setProperty(property property) {
-        Property = property;
-    }
-
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -88,12 +112,20 @@ public class contract {
         this.specialTerms = specialTerms;
     }
 
-    public owner getContractOwner() {
-        return contractOwner;
+    public com.Hometract.Hometract.entities.owner getOwner() {
+        return owner;
     }
 
-    public void setContractOwner(owner contractOwner) {
-        this.contractOwner = contractOwner;
+    public void setOwner(com.Hometract.Hometract.entities.owner owner) {
+        this.owner = owner;
+    }
+
+    public com.Hometract.Hometract.entities.property getProperty() {
+        return property;
+    }
+
+    public void setProperty(com.Hometract.Hometract.entities.property property) {
+        this.property = property;
     }
 
     public int getPayment_in_advance() {
@@ -110,5 +142,13 @@ public class contract {
 
     public void setReason_of_use(String reason_of_use) {
         this.reason_of_use = reason_of_use;
+    }
+
+    public com.Hometract.Hometract.entities.tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(com.Hometract.Hometract.entities.tenant tenant) {
+        this.tenant = tenant;
     }
 }

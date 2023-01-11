@@ -1,48 +1,102 @@
 package com.Hometract.Hometract.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
-public class property {
-    private String address;
-    private long power_registration_number;
-    private String energy_class;
-    private Double size;
-    private int year_of_construction;
-    private int number_of_rooms;
-    private List<String> benefits;
-    private int floor;
 
-    public property(String address,
-                    long power_registration_number,
+@Entity
+@Table(name="properties")
+public class property {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "property_id",nullable = false)
+    private int property_id;
+
+    @Column(name = "address")
+    private String address;
+    @Column(name = "power_registration_number")
+    @NotBlank(message = "Please enter the power registration number")
+    @Size( max=8 , message = "Power registration number should not be greater than 8 characters")
+    private String power_registration_number;
+    @Column(name = "energy_class")
+    private String energy_class;
+    @Column(name = "size")
+    private Double size;
+    @Column(name = "year_of_construction",length = 4)
+    private int year_of_construction;
+    @Column(name = "number_of_rooms")
+    private int number_of_rooms;
+    @Column(name = "floor")
+    private int floor;
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private tenant tenant;
+
+    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="owner_id")
+    @JsonBackReference
+    private owner owner;
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "contract_id")
+    private contract contract;
+
+
+    public property() {}
+
+    public property(int property_id,
+                    String address,
+                    String power_registration_number,
                     String energy_class,
                     Double size,
                     int year_of_construction,
                     int number_of_rooms,
-                    List<String> benefits,
-                    int floor)
-    {
+                    int floor,
+                    tenant tenant,
+                    owner owner,
+                    contract contract) {
+        this.property_id = property_id;
         this.address = address;
         this.power_registration_number = power_registration_number;
         this.energy_class = energy_class;
         this.size = size;
         this.year_of_construction = year_of_construction;
         this.number_of_rooms = number_of_rooms;
-        this.benefits = benefits;
         this.floor = floor;
+        this.tenant = tenant;
+        this.owner = owner;
+        this.contract = contract;
     }
 
     @Override
     public String toString() {
         return "property{" +
-                "address='" + address + '\'' +
-                ", power_registration_number=" + power_registration_number +
+                "property_id=" + property_id +
+                ", address='" + address + '\'' +
+                ", power_registration_number='" + power_registration_number + '\'' +
                 ", energy_class='" + energy_class + '\'' +
                 ", size=" + size +
                 ", year_of_construction=" + year_of_construction +
                 ", number_of_rooms=" + number_of_rooms +
-                ", benefits=" + benefits +
                 ", floor=" + floor +
+                ", tenant=" + tenant +
+                ", owner=" + owner +
+                ", contract=" + contract +
                 '}';
+    }
+
+    public int getProperty_id() {
+        return property_id;
+    }
+
+    public void setProperty_id(int property_id) {
+        this.property_id = property_id;
     }
 
     public String getAddress() {
@@ -53,11 +107,11 @@ public class property {
         this.address = address;
     }
 
-    public long getPower_registration_number() {
+    public String getPower_registration_number() {
         return power_registration_number;
     }
 
-    public void setPower_registration_number(long power_registration_number) {
+    public void setPower_registration_number(String power_registration_number) {
         this.power_registration_number = power_registration_number;
     }
 
@@ -93,14 +147,6 @@ public class property {
         this.number_of_rooms = number_of_rooms;
     }
 
-    public List<String> getBenefits() {
-        return benefits;
-    }
-
-    public void setBenefits(List<String> benefits) {
-        this.benefits = benefits;
-    }
-
     public int getFloor() {
         return floor;
     }
@@ -108,4 +154,29 @@ public class property {
     public void setFloor(int floor) {
         this.floor = floor;
     }
+
+    public com.Hometract.Hometract.entities.tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(com.Hometract.Hometract.entities.tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    public com.Hometract.Hometract.entities.owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(com.Hometract.Hometract.entities.owner owner) {
+        this.owner = owner;
+    }
+
+    public com.Hometract.Hometract.entities.contract getContract() {
+        return contract;
+    }
+
+    public void setContract(com.Hometract.Hometract.entities.contract contract) {
+        this.contract = contract;
+    }
 }
+
